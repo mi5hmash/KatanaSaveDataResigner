@@ -1,0 +1,58 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net10.0-windows</TargetFramework>
+		<RootNamespace>KatanaSaveDataResignerWpf</RootNamespace>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<AssemblyVersion>2.0.0.0</AssemblyVersion>
+		<FileVersion>$(AssemblyVersion)</FileVersion>
+		<Version>$(AssemblyVersion)</Version>
+		<Authors>Mi5hmasH</Authors>
+		<Company>$(Authors)</Company>
+		<Copyright>$(Authors) © $([System.DateTime]::UtcNow.Year)</Copyright>
+		<PackageProjectUrl>https://github.com/mi5hmash/KatanaSaveDataResigner</PackageProjectUrl>
+		<Description>Re-signs, Decrypts &amp; Encrypts SaveData files from several games running on Katana Engine.</Description>
+		<ApplicationIcon>AppIcon.ico</ApplicationIcon>
+	</PropertyGroup>
+	
+	<ItemGroup>
+	  <None Remove="Fonts\IconFont.otf" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Resource Include="Fonts\IconFont.otf" />
+		<Resource Include="Resources\Images\AppLogo.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+		<PackageReference Include="Mi5hmasH.AppSettings" Version="0.0.2" />
+		<PackageReference Include="Mi5hmasH.ConvertersWpf" Version="0.0.1" />
+		<PackageReference Include="Mi5hmasH.WpfHelper" Version="0.0.3" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.142" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\KatanaSaveDataResignerCore\KatanaSaveDataResignerCore.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+</Project>

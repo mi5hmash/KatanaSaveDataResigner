@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="katana-savedata-resigner-cli/katana-savedata-resigner-cli.csproj" />
+  <Project Path="KatanaSaveDataResignerCore/KatanaSaveDataResignerCore.csproj" />
+  <Project Path="KatanaSaveDataResignerWpf/KatanaSaveDataResignerWpf.csproj" Id="15fd8bd1-e713-4b5f-b84e-eda2b0ae3ff3" />
+  <Project Path="QualityControl.xUnit/QualityControl.xUnit.csproj" Id="5c36621f-20e2-45c0-8dc4-c6efed3a51ec" />
+</Solution>

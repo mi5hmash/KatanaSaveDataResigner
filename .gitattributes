@@ -1,2 +1,19 @@
-# Auto detect text files and perform LF normalization
+# Set default behavior to automatically normalize line endings.
 * text=auto
+
+# Treat these files as binary
+*/Resources/ff2cbr-dummy-decrypted.bin      binary
+*/Resources/ff2cbr-dummy-encrypted.bin      binary
+*/Resources/nioh-decrypted.bin              binary
+*/Resources/nioh-encrypted.bin              binary
+*/Resources/nioh2-decrypted.bin             binary
+*/Resources/nioh2-encrypted.bin             binary
+*/Resources/nioh3-decrypted.bin             binary
+*/Resources/nioh3-encrypted.bin             binary
+*/Resources/ronin-dummy.bin                 binary
+*/Resources/sopffo-decrypted.bin            binary
+*/Resources/sopffo-encrypted.bin            binary
+*/Resources/wolong-dummy-decrypted.bin      binary
+*/Resources/wolong-dummy-encrypted.bin      binary
+*/Resources/wolongps4-dummy-decrypted.bin   binary
+*/Resources/wolongps4-dummy-encrypted.bin   binary

@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net10.0</TargetFramework>
+		<RootNamespace>katana-savedata-resigner-cli</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<NeutralLanguage>en-US</NeutralLanguage>
+		<AssemblyVersion>2.0.0.0</AssemblyVersion>
+		<FileVersion>$(AssemblyVersion)</FileVersion>
+		<Version>$(AssemblyVersion)</Version>
+		<Authors>Mi5hmasH</Authors>
+		<Company>$(Authors)</Company>
+		<Copyright>$(Authors) © $([System.DateTime]::UtcNow.Year)</Copyright>
+		<PackageProjectUrl>https://github.com/mi5hmash/KatanaSaveDataResigner</PackageProjectUrl>
+		<Description>Re-signs, Decrypts &amp; Encrypts SaveData files from several games running on Katana Engine.</Description>
+		<ApplicationIcon>icon.ico</ApplicationIcon>
+		<NoWarn>IL2104</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Include="icon.ico" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Mi5hmasH.ConsoleHelper" Version="0.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\KatanaSaveDataResignerCore\KatanaSaveDataResignerCore.csproj" />
+	</ItemGroup>
+
+</Project>
