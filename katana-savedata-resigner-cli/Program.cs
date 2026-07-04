@@ -198,8 +198,6 @@ async Task DecryptAll() => await CommonAction(core.DecryptFilesAsync);
 
 async Task EncryptAll() => await CommonAction(core.EncryptFilesAsync);
 
-async Task FindUserId() => await CommonAction(core.FindUserIdAsync);
-
 async Task ImportJson() => await CommonAction(core.ImportJsonAsync);
 
 async Task ExportJson() => await CommonAction(core.ExportJsonAsync);
@@ -213,6 +211,13 @@ async Task ResignAll()
     var inputRootPath = GetValidatedInputRootPath();
     var gameTitleId = GetGameTitleId();
     await core.ResignFilesAsync(inputRootPath, userId, gameTitleId, cts);
+}
+
+async Task FindUserId()
+{
+    var inputRootPath = GetValidatedInputRootPath();
+    var gameTitleId = GetGameTitleId();
+    await core.FindUserIdAsync(inputRootPath, gameTitleId);
 }
 
 #endregion

@@ -278,19 +278,17 @@ public class Core(SimpleLogger logger, ProgressReporter progressReporter)
     /// </summary>
     /// <param name="inputDir">The input directory containing the files to process.</param>
     /// <param name="titleId">The game title identifier.</param>
-    /// <param name="cts">The cancellation token source.</param>
     /// <returns>The user identifier if found; otherwise, null.</returns>
-    public async Task<ulong?> FindUserIdAsync(string inputDir, GameTitleIdEnum titleId, CancellationTokenSource cts)
-        => await Task.Run(() => FindUserId(inputDir, titleId, cts));
+    public async Task<ulong?> FindUserIdAsync(string inputDir, GameTitleIdEnum titleId)
+        => await Task.Run(() => FindUserId(inputDir, titleId));
 
     /// <summary>
     /// Extracts the user identifier from the first file found in the specified input directory and its subdirectories.
     /// </summary>
     /// <param name="inputDir">The input directory containing the files to process.</param>
     /// <param name="titleId">The game title identifier.</param>
-    /// <param name="cts">The cancellation token source.</param>
     /// <returns>The user identifier if found; otherwise, null.</returns>
-    public ulong? FindUserId(string inputDir, GameTitleIdEnum titleId, CancellationTokenSource cts)
+    public ulong? FindUserId(string inputDir, GameTitleIdEnum titleId)
     {
         // GET FILES TO PROCESS
         string[] filesToProcess;

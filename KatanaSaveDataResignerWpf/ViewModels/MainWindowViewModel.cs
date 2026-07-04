@@ -51,8 +51,11 @@ public partial class MainWindowViewModel : ObservableValidator
     #endregion
 
     #region UI_STATE
-    [ObservableProperty] private bool _isBusy;
-    [ObservableProperty] private bool _isAbortAllowed;
+
+    [ObservableProperty] 
+    public partial bool IsBusy { get; set; }
+    [ObservableProperty] 
+    public partial bool IsAbortAllowed { get; set; }
 
     partial void OnIsBusyChanged(bool value)
     {
@@ -61,8 +64,10 @@ public partial class MainWindowViewModel : ObservableValidator
     #endregion
 
     #region PROGRESS_REPORTER
-    [ObservableProperty] private int _progressValue;
-    [ObservableProperty] private string _progressText = "Loading...";
+    [ObservableProperty] 
+    public partial int ProgressValue { get; set; }
+    [ObservableProperty] 
+    public partial string ProgressText { get; set; } = "Loading...";
     private readonly ProgressReporter _progressReporter;
     #endregion
 
@@ -95,31 +100,31 @@ public partial class MainWindowViewModel : ObservableValidator
     [NotifyDataErrorInfo]
     [Required]
     [Range(0, ulong.MaxValue)] 
-    private string _userId = "0";
+    public partial string UserId { get; set; } = "0";
     #endregion
 
     #region INPUT_FOLDER_PATH
     [ObservableProperty]
     [NotifyDataErrorInfo]
     [Required]
-    private string _inputFolderPath = MyAppInfo.RootPath.TrimDirectorySeparator();
+    public partial string InputFolderPath { get; set; } = MyAppInfo.RootPath.TrimDirectorySeparator();
     
     partial void OnInputFolderPathChanged(string value)
     {
         if (Directory.Exists(value))
         {
             value = value.TrimDirectorySeparator();
-            _inputFolderPath = value;
+            InputFolderPath = value;
             return;
         }
         if (File.Exists(value))
         {
-            _inputFolderPath = Path.GetDirectoryName(value) ?? string.Empty;
+            InputFolderPath = Path.GetDirectoryName(value) ?? string.Empty;
             _progressReporter.Report("Input Folder Path is valid.");
             return;
         }
         _progressReporter.Report("Invalid Input Folder Path!");
-        _inputFolderPath = string.Empty;
+        InputFolderPath = string.Empty;
     }
 
     [RelayCommand]
@@ -178,10 +183,11 @@ public partial class MainWindowViewModel : ObservableValidator
 
     #region GAME_TITLE
     [ObservableProperty] 
-    private List<KeyValuePair<GameTitleIdEnum, string>> _gameTitles = GameTitleRegistry.GameTitlesFriendlyNames
+    public partial List<KeyValuePair<GameTitleIdEnum, string>> GameTitles { get; set; } = GameTitleRegistry.GameTitlesFriendlyNames
         .OrderBy(x => x.Value)
         .ToList();
-    [ObservableProperty] private GameTitleIdEnum _selectedGameTitle;
+    [ObservableProperty] 
+    public partial GameTitleIdEnum SelectedGameTitle { get; set; }
 
     private SaveDataFormatEnum _saveDataFormat;
     public bool CanDoJson => SuperUserManager.IsSuperUser && 
@@ -202,7 +208,8 @@ public partial class MainWindowViewModel : ObservableValidator
     #endregion
 
     #region SUPERUSER
-    [ObservableProperty] private SuperUserManager _superUserManager;
+    [ObservableProperty] 
+    public partial SuperUserManager SuperUserManager { get; set; }
     private void OnSuperUserManagerPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(SuperUserManager.IsSuperUser))
@@ -314,7 +321,7 @@ public partial class MainWindowViewModel : ObservableValidator
     private async Task FindUserIdAsync()
     {
         _cts = new CancellationTokenSource();
-        var userId = await _core.FindUserIdAsync(InputFolderPath, SelectedGameTitle, _cts);
+        var userId = await _core.FindUserIdAsync(InputFolderPath, SelectedGameTitle);
         if (userId != null) UserId = userId.ToString()!;
         SystemSounds.Beep.Play();
         _cts.Dispose();

@@ -103,23 +103,24 @@ public sealed class KatanaSaveDataResignerCoreTests : IDisposable
         Assert.True(testResult);
     }
 
-    public static IEnumerable<object[]> DecryptFileTheories =>
-    [
-        [GameTitleIdEnum.Nioh, Properties.Resources.nioh_encrypted, Properties.Resources.nioh_decrypted],
-        [GameTitleIdEnum.Nioh2, Properties.Resources.nioh2_encrypted, Properties.Resources.nioh2_decrypted],
-        [GameTitleIdEnum.Nioh3, Properties.Resources.nioh3_encrypted, Properties.Resources.nioh3_decrypted],
-        [GameTitleIdEnum.Sopffo, Properties.Resources.sopffo_encrypted, Properties.Resources.sopffo_decrypted],
-        [GameTitleIdEnum.Wolong, Properties.Resources.wolong_dummy_encrypted, Properties.Resources.wolong_dummy_decrypted],
-        [GameTitleIdEnum.WolongPs4, Properties.Resources.wolongps4_dummy_encrypted, Properties.Resources.wolongps4_dummy_decrypted],
-        [GameTitleIdEnum.Ff2Cbr, Properties.Resources.ff2cbr_dummy_encrypted, Properties.Resources.ff2cbr_dummy_decrypted]
-    ];
-
+    public static TheoryData<GameTitleIdEnum, byte[], byte[]> DecryptFileTheories =>
+        new()
+        {
+            { GameTitleIdEnum.Nioh, Properties.Resources.nioh_encrypted, Properties.Resources.nioh_decrypted },
+            { GameTitleIdEnum.Nioh2, Properties.Resources.nioh2_encrypted, Properties.Resources.nioh2_decrypted },
+            { GameTitleIdEnum.Nioh3, Properties.Resources.nioh3_encrypted, Properties.Resources.nioh3_decrypted },
+            { GameTitleIdEnum.Sopffo, Properties.Resources.sopffo_encrypted, Properties.Resources.sopffo_decrypted },
+            { GameTitleIdEnum.Wolong, Properties.Resources.wolong_dummy_encrypted, Properties.Resources.wolong_dummy_decrypted },
+            { GameTitleIdEnum.WolongPs4, Properties.Resources.wolongps4_dummy_encrypted, Properties.Resources.wolongps4_dummy_decrypted },
+            { GameTitleIdEnum.Ff2Cbr, Properties.Resources.ff2cbr_dummy_encrypted, Properties.Resources.ff2cbr_dummy_decrypted }
+        };
+    
     [Theory]
     [MemberData(nameof(DecryptFileTheories))]
     public void DecryptFiles_DoesDecrypt(GameTitleIdEnum variant, byte[] encryptedData, byte[] decryptedData)
     {
         // Arrange
-        _output.WriteLine($"Title ID: {variant.ToString()}");
+        _output.WriteLine($"Title ID: {variant}");
         var file = GameTitleRegistry.GetGameTitle(variant);
         file.FileData = encryptedData;
 
@@ -131,26 +132,27 @@ public sealed class KatanaSaveDataResignerCoreTests : IDisposable
         Assert.Equal(decryptedData, (ReadOnlySpan<byte>)resultData);
     }
 
-    public static IEnumerable<object[]> EncryptFileTheories =>
-    [
-        [GameTitleIdEnum.Nioh, Properties.Resources.nioh_decrypted],
-        [GameTitleIdEnum.Nioh2, Properties.Resources.nioh2_decrypted],
-        [GameTitleIdEnum.Nioh3, Properties.Resources.nioh3_decrypted],
-        [GameTitleIdEnum.Sopffo, Properties.Resources.sopffo_decrypted],
-        [GameTitleIdEnum.Wolong, Properties.Resources.wolong_dummy_decrypted],
-        [GameTitleIdEnum.WolongPs4, Properties.Resources.wolongps4_dummy_decrypted],
-        [GameTitleIdEnum.Ff2Cbr, Properties.Resources.ff2cbr_dummy_decrypted]
-    ];
+    public static TheoryData<GameTitleIdEnum, byte[]> EncryptFileTheories =>
+        new()
+        {
+            { GameTitleIdEnum.Nioh, Properties.Resources.nioh_decrypted },
+            { GameTitleIdEnum.Nioh2, Properties.Resources.nioh2_decrypted },
+            { GameTitleIdEnum.Nioh3, Properties.Resources.nioh3_decrypted },
+            { GameTitleIdEnum.Sopffo, Properties.Resources.sopffo_decrypted },
+            { GameTitleIdEnum.Wolong, Properties.Resources.wolong_dummy_decrypted },
+            { GameTitleIdEnum.WolongPs4, Properties.Resources.wolongps4_dummy_decrypted },
+            { GameTitleIdEnum.Ff2Cbr, Properties.Resources.ff2cbr_dummy_decrypted }
+        };
 
     [Theory]
     [MemberData(nameof(EncryptFileTheories))]
     public void EncryptFiles_DoesEncrypt(GameTitleIdEnum variant, byte[] decryptedData)
     {
         // Arrange
-        _output.WriteLine($"Title ID: {variant.ToString()}");
+        _output.WriteLine($"Title ID: {variant}");
         const int bytesToCompare = 64;
         var file = GameTitleRegistry.GetGameTitle(variant);
-        file.FileData = decryptedData.ToArray();
+        file.FileData = decryptedData;
 
         // Act
         file.Encrypt();
@@ -161,26 +163,27 @@ public sealed class KatanaSaveDataResignerCoreTests : IDisposable
         Assert.Equal(decryptedData.AsSpan()[^bytesToCompare..], ((ReadOnlySpan<byte>)resultData)[^bytesToCompare..]);
     }
 
-    public static IEnumerable<object[]> FindUserIdTheories =>
-    [
-        [GameTitleIdEnum.Nioh, Properties.Resources.nioh_encrypted, UserIdShort],
-        [GameTitleIdEnum.Nioh2, Properties.Resources.nioh2_encrypted, UserIdShort],
-        [GameTitleIdEnum.Nioh3, Properties.Resources.nioh3_encrypted, UserIdLong],
-        [GameTitleIdEnum.Sopffo, Properties.Resources.sopffo_encrypted, UserIdShort],
-        [GameTitleIdEnum.Ronin, Properties.Resources.ronin_dummy, UserIdLong],
-        [GameTitleIdEnum.Wolong, Properties.Resources.wolong_dummy_encrypted, UserIdShort],
-        [GameTitleIdEnum.WolongPs4, Properties.Resources.wolongps4_dummy_encrypted, "0"],
-        [GameTitleIdEnum.Ff2Cbr, Properties.Resources.ff2cbr_dummy_encrypted, UserIdShort]
-    ];
+    public static TheoryData<GameTitleIdEnum, byte[], string> FindUserIdTheories =>
+        new()
+        {
+            { GameTitleIdEnum.Nioh, Properties.Resources.nioh_encrypted, UserIdShort },
+            { GameTitleIdEnum.Nioh2, Properties.Resources.nioh2_encrypted, UserIdShort },
+            { GameTitleIdEnum.Nioh3, Properties.Resources.nioh3_encrypted, UserIdLong },
+            { GameTitleIdEnum.Sopffo, Properties.Resources.sopffo_encrypted, UserIdShort },
+            { GameTitleIdEnum.Ronin, Properties.Resources.ronin_dummy, UserIdLong },
+            { GameTitleIdEnum.Wolong, Properties.Resources.wolong_dummy_encrypted, UserIdShort },
+            { GameTitleIdEnum.WolongPs4, Properties.Resources.wolongps4_dummy_encrypted, "0" },
+            { GameTitleIdEnum.Ff2Cbr, Properties.Resources.ff2cbr_dummy_encrypted, UserIdShort }
+        };
 
     [Theory]
     [MemberData(nameof(FindUserIdTheories))]
     public void FindUserId_DoesFind(GameTitleIdEnum variant, byte[] encryptedData, string expectedUserId)
     {
         // Arrange
-        _output.WriteLine($"Title ID: {variant.ToString()}");
+        _output.WriteLine($"Title ID: {variant}");
         var file = GameTitleRegistry.GetGameTitle(variant);
-        file.FileData = encryptedData.ToArray();
+        file.FileData = encryptedData;
 
         // Act
         var userId = file.GetUserId();
@@ -213,23 +216,24 @@ public sealed class KatanaSaveDataResignerCoreTests : IDisposable
         Assert.Throws<NotSupportedException>(file.Decrypt);
     }
 
-    public static IEnumerable<object[]> JsonTheories =>
-    [
-        [GameTitleIdEnum.Nioh, Properties.Resources.nioh_encrypted],
-        [GameTitleIdEnum.Nioh2, Properties.Resources.nioh2_encrypted],
-        [GameTitleIdEnum.Nioh3, Properties.Resources.nioh3_encrypted],
-        [GameTitleIdEnum.Sopffo, Properties.Resources.sopffo_encrypted],
-        [GameTitleIdEnum.Wolong, Properties.Resources.wolong_dummy_encrypted],
-        [GameTitleIdEnum.WolongPs4, Properties.Resources.wolongps4_dummy_encrypted],
-        [GameTitleIdEnum.Ff2Cbr, Properties.Resources.ff2cbr_dummy_encrypted]
-    ];
+    public static TheoryData<GameTitleIdEnum, byte[]> JsonTheories =>
+        new()
+        {
+            { GameTitleIdEnum.Nioh, Properties.Resources.nioh_encrypted },
+            { GameTitleIdEnum.Nioh2, Properties.Resources.nioh2_encrypted },
+            { GameTitleIdEnum.Nioh3, Properties.Resources.nioh3_encrypted },
+            { GameTitleIdEnum.Sopffo, Properties.Resources.sopffo_encrypted },
+            { GameTitleIdEnum.Wolong, Properties.Resources.wolong_dummy_encrypted },
+            { GameTitleIdEnum.WolongPs4, Properties.Resources.wolongps4_dummy_encrypted },
+            { GameTitleIdEnum.Ff2Cbr, Properties.Resources.ff2cbr_dummy_encrypted }
+        };
 
     [Theory]
     [MemberData(nameof(JsonTheories))]
     public void Json_DoesImportAndExport(GameTitleIdEnum variant, byte[] encryptedData)
     {
         // Arrange
-        _output.WriteLine($"Title ID: {variant.ToString()}");
+        _output.WriteLine($"Title ID: {variant}");
         var obj = new { Id = 1, Name = "Michael", Active = true };
         var jsonData = JsonSerializer.SerializeToUtf8Bytes(obj);
         var saveDataFormat = GameTitleRegistry.GetGameTitleSaveDataFormat(variant);

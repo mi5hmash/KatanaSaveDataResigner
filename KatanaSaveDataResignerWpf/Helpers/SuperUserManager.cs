@@ -16,7 +16,8 @@ public partial class SuperUserManager : ObservableObject
     private readonly uint _superUserThreshold;
     private uint _superUserClicks;
 
-    [ObservableProperty] private bool _isSuperUser;
+    [ObservableProperty] 
+    public partial bool IsSuperUser { get; set; }
 
     /// <summary>
     /// Initializes a new instance of the SuperUserManager class with the specified progress reporter and SuperUser threshold.
